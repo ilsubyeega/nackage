@@ -36,4 +36,4 @@ jobs:
           nix shell nixpkgs#awscli --command aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
 
       - name: Copy package
-        run: nix copy --to s3://nackage\?profile=$AWS_PROFILE_NAME\&endpoint=$S3_API_ENDPOINT\&compression=zstd .#all
+        run: nix copy --accept-flake-config --to s3://nackage\?profile=$AWS_PROFILE_NAME\&endpoint=$S3_API_ENDPOINT\&compression=zstd .#all
