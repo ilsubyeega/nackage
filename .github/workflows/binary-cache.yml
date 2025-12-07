@@ -12,12 +12,13 @@ on:
   #push:
   #  paths-ignore:
   #    - "**/README.md"
-  
 
 jobs:
   copy:
     runs-on: ubuntu-latest
     steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@v1.3.1
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
 
@@ -35,4 +36,4 @@ jobs:
           nix shell nixpkgs#awscli --command aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
 
       - name: Copy package
-        run: nix copy --to s3://nackage\?profile=$AWS_PROFILE_NAME\&endpoint=$S3_API_ENDPOINT\&compression=zstd
+        run: nix copy --to s3://nackage\?profile=$AWS_PROFILE_NAME\&endpoint=$S3_API_ENDPOINT\&compression=zstd .#all
