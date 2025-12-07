@@ -1,1 +1,3 @@
 result/
+.env
+scripts/env.sh

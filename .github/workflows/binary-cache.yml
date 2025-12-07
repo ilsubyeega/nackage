@@ -23,12 +23,12 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
 
       - name: Build package
-        run: nix build .#all --accept-flake-config
+        run: nix build --accept-flake-config .#all
 
       - name: Sign package with secret key
         run: |
           echo $BINARY_CACHE_SECRET_KEY > ./secret.key
-          nix store sign --recursive --key-file ./secret.key
+          nix store sign --accept-flake-config --recursive --key-file ./secret.key .#all
 
       - name: Configure AWS credentials
         run: |
