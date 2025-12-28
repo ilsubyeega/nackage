@@ -26,26 +26,54 @@
 
   };
 
-  outputs = { nixpkgs, ... }@inputs:
+  outputs =
+    { nixpkgs, ... }@inputs:
     let
-      systems = [ "x86_64-linux" "aarch64-linux" ];
-      eachSystem = f: nixpkgs.lib.genAttrs systems (system: f (import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      }));
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      eachSystem =
+        f:
+        nixpkgs.lib.genAttrs systems (
+          system:
+          f (
+            import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+            }
+          )
+        );
     in
     {
-      packages = eachSystem (pkgs: let
-        hostPlatform = pkgs.stdenv.hostPlatform;
-        list = {
-          #test = pkgs.callPackage ./packages/test/package.nix { };
+      packages = eachSystem (
+        pkgs:
+        let
+          hostPlatform = pkgs.stdenv.hostPlatform;
+          list = {
+            #test = pkgs.callPackage ./packages/test/package.nix { };
 
-          # Re-export for caching.
-          inherit (inputs.niri.packages.${hostPlatform.system}) niri niri-debug;
-          inherit (inputs.xwayland-satellite.packages.${hostPlatform.system}) xwayland-satellite;
-        };
-      in list // {
-        all = pkgs.linkFarm "all-packages" list;
-      });
+            # Re-export for caching.
+            inherit (inputs.xwayland-satellite.packages.${hostPlatform.system}) xwayland-satellite;
+          }
+          // (builtins.mapAttrs
+            (
+              _: niriPackage:
+              niriPackage.overrideAttrs {
+                patches = [
+                  ./packages/niri/0001-Save-screenshot-to-disk-even-Ctrl-C-is-pressed.patch
+                ];
+              }
+            )
+            {
+              inherit (inputs.niri.packages.${hostPlatform.system}) niri niri-debug;
+            }
+          );
+        in
+        list
+        // {
+          all = pkgs.linkFarm "all-packages" list;
+        }
+      );
     };
 }

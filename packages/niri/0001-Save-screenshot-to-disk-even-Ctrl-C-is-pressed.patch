@@ -1,0 +1,29 @@
+From b4ef90d21d4b0a7de21df938fbd0cc37ed010695 Mon Sep 17 00:00:00 2001
+From: ilsubyeega <git@fmt.kr>
+Date: Sun, 28 Dec 2025 20:55:18 +0900
+Subject: [PATCH] Save screenshot to disk even Ctrl+C is pressed.
+
+There is no toggle to disable this behavior and
+yalter mentions it should be more worth to go personal fork
+
+Signed-off-by: ilsubyeega <git@fmt.kr>
+---
+ src/ui/screenshot_ui.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/ui/screenshot_ui.rs b/src/ui/screenshot_ui.rs
+index 3ffc1362..125deee8 100644
+--- a/src/ui/screenshot_ui.rs
++++ b/src/ui/screenshot_ui.rs
+@@ -1059,7 +1059,7 @@ fn action(raw: Keysym, mods: ModifiersState) -> Option<Action> {
+     }
+     if mods.ctrl && raw == Keysym::c {
+         return Some(Action::ConfirmScreenshot {
+-            write_to_disk: false,
++            write_to_disk: true,
+         });
+     }
+ 
+-- 
+2.51.2
+
