@@ -24,7 +24,7 @@
       inputs.rust-overlay.follows = "rust-overlay";
     };
     wayland-proxy = {
-      url = "github:ilsubyeega/wayland-proxy/master";
+      url = "github:ilsubyeega/wayland-proxy/main";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.rust-overlay.follows = "rust-overlay";
     };

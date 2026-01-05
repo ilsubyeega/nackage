@@ -113,16 +113,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1767588349,
-        "narHash": "sha256-zvq/fdO6U1HjYAa5ecoZJODVgBDp6wZ3xMutgGAU88M=",
+        "lastModified": 1767594548,
+        "narHash": "sha256-s2tBklxQgRCzNpsn+hcI0rhvA8uqz/rbcz2BfzFbABs=",
         "owner": "ilsubyeega",
         "repo": "wayland-proxy",
-        "rev": "3331d3a7365800ca324a44a0e2f0f2b1f4fe78e8",
+        "rev": "0e31f7e861c4531c6c037a5fe94d041fc41c74ea",
         "type": "github"
       },
       "original": {
         "owner": "ilsubyeega",
-        "ref": "master",
+        "ref": "main",
         "repo": "wayland-proxy",
         "type": "github"
       }
