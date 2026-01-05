@@ -44,35 +44,40 @@
             }
           )
         );
+
+      # Mark all packages as requiring "nackage" feature.
+      # This is used for explict binary cache usage.
+      markPackageAsNackage =
+        pkg:
+        pkg.overrideAttrs (
+          final: old: {
+            pname = "nackage-" + old.pname;
+            requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
+          }
+        );
+      markAllPackageAsNackage =
+        pkgsAttrs: builtins.mapAttrs (_: value: markPackageAsNackage value) pkgsAttrs;
     in
     {
       packages = eachSystem (
         pkgs:
+        with pkgs;
         let
-          hostPlatform = pkgs.stdenv.hostPlatform;
-          list = {
-            #test = pkgs.callPackage ./packages/test/package.nix { };
-
-            # Re-export for caching.
-            inherit (inputs.xwayland-satellite.packages.${hostPlatform.system}) xwayland-satellite;
-          }
-          // (builtins.mapAttrs
-            (
-              _: niriPackage:
-              niriPackage.overrideAttrs {
-                patches = [
-                  ./packages/niri/0001-Save-screenshot-to-disk-even-Ctrl-C-is-pressed.patch
-                ];
-              }
-            )
-            {
-              inherit (inputs.niri.packages.${hostPlatform.system}) niri niri-debug;
-            }
-          );
+          hostPlatform = stdenv.hostPlatform;
+          list = import ./packages/default.nix {
+            inherit pkgs inputs hostPlatform;
+          };
         in
-        list
+        (markAllPackageAsNackage list)
         // {
-          all = pkgs.linkFarm "all-packages" list;
+          all = markPackageAsNackage (
+            (pkgs.linkFarm "all-packages" list).overrideAttrs (old: {
+              # the linkFarm package does not set the package name properly.
+              pname = "nackage-all-packages";
+              name = "nackage-all-packages";
+              description = "All Nackage packages in a single derivation";
+            })
+          );
         }
       );
     };
