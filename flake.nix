@@ -64,11 +64,15 @@
         with pkgs;
         let
           hostPlatform = stdenv.hostPlatform;
-          list = import ./packages/default.nix {
-            inherit pkgs inputs hostPlatform;
-          };
+          list = (
+            markAllPackageAsNackage (
+              import ./packages/default.nix {
+                inherit pkgs inputs hostPlatform;
+              }
+            )
+          );
         in
-        (markAllPackageAsNackage list)
+        list
         // {
           all = markPackageAsNackage (
             (pkgs.linkFarm "all-packages" list).overrideAttrs (old: {
