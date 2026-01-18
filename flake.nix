@@ -23,10 +23,9 @@
       inputs.flake-utils.follows = "flake-utils";
       inputs.rust-overlay.follows = "rust-overlay";
     };
-    wayland-proxy = {
-      url = "github:ilsubyeega/wayland-proxy/main";
+    nix-alien = {
+      url = "github:thiagokokada/nix-alien/master";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.rust-overlay.follows = "rust-overlay";
     };
   };
 
