@@ -56,7 +56,7 @@
         pkg.overrideAttrs (
           final: old: {
             pname = "nackage-" + old.pname;
-            #requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
+            requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
           }
         );
       markAllPackageAsNackage =
