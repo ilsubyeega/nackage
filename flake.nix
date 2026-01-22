@@ -27,6 +27,7 @@
       url = "github:thiagokokada/nix-alien/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    crane.url = "github:ipetkov/crane/master";
   };
 
   outputs =
@@ -55,7 +56,7 @@
         pkg.overrideAttrs (
           final: old: {
             pname = "nackage-" + old.pname;
-            requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
+            #requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
           }
         );
       markAllPackageAsNackage =
