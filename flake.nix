@@ -51,16 +51,6 @@
 
       # Mark all packages as requiring "nackage" feature.
       # This is used for explict binary cache usage.
-      markPackageAsNackage =
-        pkg:
-        pkg.overrideAttrs (
-          final: old: {
-            pname = "nackage-" + old.pname;
-            requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
-          }
-        );
-      markAllPackageAsNackage =
-        pkgsAttrs: builtins.mapAttrs (_: value: markPackageAsNackage value) pkgsAttrs;
     in
     {
       packages = eachSystem (
@@ -69,23 +59,28 @@
         let
           hostPlatform = stdenv.hostPlatform;
           list = (
-            markAllPackageAsNackage (
-              import ./packages/default.nix {
-                inherit pkgs inputs hostPlatform;
-              }
-            )
+            import ./packages/default.nix {
+              inherit pkgs inputs hostPlatform;
+            }
           );
+          nackage-list = lib.concatMapAttrs (
+            name: value: {
+              "nackage-${name}" = value.overrideAttrs (old: {
+                pname = "nackage-" + old.pname;
+                requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
+              });
+            }
+          ) list;
         in
         list
+        // nackage-list
         // {
-          all = markPackageAsNackage (
-            (pkgs.linkFarm "all-packages" list).overrideAttrs (old: {
-              # the linkFarm package does not set the package name properly.
-              pname = "nackage-all-packages";
-              name = "nackage-all-packages";
-              description = "All Nackage packages in a single derivation";
-            })
-          );
+          nackage-all = (pkgs.linkFarm "all-packages" nackage-list).overrideAttrs (old: {
+            # the linkFarm package does not set the package name properly.
+            pname = "nackage-all-packages";
+            name = "nackage-all-packages";
+            description = "All Nackage packages in a single derivation";
+          });
         }
       );
     };
