@@ -3,8 +3,8 @@
     { pkgs, ... }:
     let
       # was going to use stable tag but rolling release of libtelio blocks that
-      version = "1d4d411470ceff24b2c87397591efa8c1404fd3d";
-      hash = "sha256-5Y5NmQ6xleRILWoImCspWyhTY3f9uIqzaMOdbAodUVo=";
+      version = "df462a9ab13e79556c886d06d90b0fbe318c0807";
+      hash = "sha256-nDL9qZHGPT51Pk5cla4ANKmY27TYfbhcqAAs3RZwei0=";
       vendorHash = "sha256-oXSl3QuW8DN8N5WezQwIj1KjIXBMZWOb2vY+ct5AOYo=";
     in
     {
@@ -20,8 +20,8 @@
   libtelio =
     { pkgs, ... }:
     let
-      rev = "6be3ea355994dfb221ece467ad09190559dcdf0f";
-      hash = "sha256-4bNJGtQtgOeHNNdZ617xSF/f7pKZmqBgmeXsT4f5ZhQ=";
+      rev = "1919ba268edcca5ea30e0f7ca0e91ccc1fff006f";
+      hash = "sha256-JYjtj3u6IDeq3lO9HVqGq8pAiiqu6HBF0dBgO1cnuUA=";
     in
     {
       src = pkgs.fetchFromGitHub {
