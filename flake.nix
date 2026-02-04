@@ -28,6 +28,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     crane.url = "github:ipetkov/crane/master";
+    #repo-wprs.url = "github:wayland-transpositor/wprs/master";
+    #repo-wprs.flake = false;
   };
 
   outputs =
@@ -63,14 +65,12 @@
               inherit pkgs inputs hostPlatform;
             }
           );
-          nackage-list = lib.concatMapAttrs (
-            name: value: {
-              "nackage-${name}" = value.overrideAttrs (old: {
-                pname = "nackage-" + old.pname;
-                requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
-              });
-            }
-          ) list;
+          nackage-list = lib.concatMapAttrs (name: value: {
+            "nackage-${name}" = value.overrideAttrs (old: {
+              pname = "nackage-" + old.pname;
+              requiredSystemFeatures = (old.requiredSystemFeatures or [ ]) ++ [ "nackage" ];
+            });
+          }) list;
         in
         list
         // nackage-list
