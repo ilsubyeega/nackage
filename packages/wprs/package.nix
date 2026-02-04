@@ -7,13 +7,12 @@
 }@args:
 let
   craneLib = inputs.crane.mkLib pkgs;
-  deps = import ./deps.nix;
-  deps-wprs = deps.wprs args;
+  src = inputs.repo-wprs;
 in
 craneLib.buildPackage rec {
   pname = "wprs";
-  version = deps-wprs.rev or "unknown";
-  inherit (deps-wprs) src cargoHash;
+  version = src.shortRev or src.rev or "unknown";
+  inherit src;
 
   nativeBuildInputs = with pkgs; [
     pkg-config

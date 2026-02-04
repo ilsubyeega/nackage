@@ -28,8 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     crane.url = "github:ipetkov/crane/master";
-    #repo-wprs.url = "github:wayland-transpositor/wprs/master";
-    #repo-wprs.flake = false;
+    
+    
+    
+    repo-wprs.url = "github:wayland-transpositor/wprs/master";
+    repo-wprs.flake = false;
   };
 
   outputs =
@@ -83,5 +86,7 @@
           });
         }
       );
+
     };
+    
 }
