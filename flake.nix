@@ -6,7 +6,6 @@
   };
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,7 +19,6 @@
     xwayland-satellite = {
       url = "github:Supreeeme/xwayland-satellite/main";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
       inputs.rust-overlay.follows = "rust-overlay";
     };
     nix-alien = {
