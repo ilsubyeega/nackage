@@ -30,7 +30,7 @@ craneLib.buildPackage rec {
   meta = {
     description = "Rootless remote desktop access for remote wayland sessions";
     license = pkgs.lib.licenses.asl20;
-    platforms = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" "aarch64-linux" ];
     homepage = "https://github.com/wayland-transpositor/wprs";
     mainProgram = "wprs";
   };
