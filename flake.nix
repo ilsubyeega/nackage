@@ -12,9 +12,8 @@
     };
 
     niri = {
-      url = "github:YaLTeR/niri/main";
+      url = "github:niri-wm/niri/main";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.rust-overlay.follows = "rust-overlay";
     };
     xwayland-satellite = {
       url = "github:Supreeeme/xwayland-satellite/main";
